@@ -21,8 +21,6 @@ export const auth = (req, res, next) => {
 };
 
 export const generateToken = async (email) => {
-  console.log(secret, 'NO SECRET');
-
   try {
     const payload = { email, iat: Math.floor(Date.now()) };
     const options = { expiresIn: '1d' };

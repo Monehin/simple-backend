@@ -44,13 +44,12 @@ export const register = [
         });
         const newUser = await user.save();
         if (!newUser.errors) {
+          const { firstName, lastName, email } = user;
           const token = await generateToken(user.email);
           return res.status(201).json({
             message: 'Registration Success',
-            data: {
-              email: user.email,
-              token,
-            },
+            token,
+            user: { firstName, lastName, email },
           });
         }
       }
@@ -81,12 +80,11 @@ export const login = [
           const isSame = await bcrypt.compare(req.body.password, user.password);
           if (isSame) {
             const token = await generateToken(user.email);
+            const { firstName, lastName, email } = user;
             res.status(200).json({
               message: 'Login Success',
-              data: {
-                email: user.email,
-                token,
-              },
+              token,
+              user: { firstName, lastName, email },
             });
           } else {
             next(createError.Unauthorized('Email or Password wrong.'));
@@ -107,9 +105,11 @@ export const getUser = async (req, res, next) => {
     if (user) {
       const { firstName, lastName, email } = user;
       res.status(200).json({
-        firstName,
-        lastName,
-        email,
+        user: {
+          firstName,
+          lastName,
+          email,
+        },
       });
     } else {
       next(createError.NotFound('User not found'));
