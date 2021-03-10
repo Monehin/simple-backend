@@ -1,10 +1,13 @@
-const app = express();
 import express from 'express';
 import cors from 'cors';
 import apiRoutes from './src/routes';
 import mongoose from 'mongoose';
 
 import { db } from './config';
+
+const app = express();
+app.use(cors());
+app.options('*', cors());
 
 const MONGODB_URL = process.env.MONGODB_URL;
 mongoose
@@ -25,7 +28,6 @@ mongoose
 
 mongoose.connection;
 
-app.use(cors({ credentials: true, origin: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
