@@ -1,13 +1,13 @@
 import express from 'express';
 import cors from 'cors';
+const app = express();
+app.use(cors());
+app.options('*', cors());
+
 import apiRoutes from './src/routes';
 import mongoose from 'mongoose';
 
 import { db } from './config';
-
-const app = express();
-app.use(cors());
-app.options('*', cors());
 
 const MONGODB_URL = process.env.MONGODB_URL;
 mongoose
@@ -28,11 +28,6 @@ mongoose
 
 mongoose.connection;
 
-app.all('/*', function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
-  next();
-});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
