@@ -25,9 +25,9 @@ mongoose
 
 mongoose.connection;
 
+app.use(cors({ credentials: true, origin: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 
 app.get('/', (req, res) => {
   res.status(200).send('Welcome');
